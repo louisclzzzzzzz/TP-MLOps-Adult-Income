@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+
+# MLflow
+mlflow.db
+mlruns/
+
+# Model artifacts (trained at build time — not versioned)
+src/mlops_tp/artifacts/model.joblib
+src/mlops_tp/artifacts/confusion_matrix.png
+src/mlops_tp/artifacts/roc_curve.png
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/

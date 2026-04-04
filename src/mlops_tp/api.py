@@ -1,0 +1,93 @@
+"""FastAPI application exposing the trained model via a REST API.
+
+The application is designed to run in any environment:
+  - local development  : uvicorn mlops_tp.api:app --port 8000
+  - Docker / cloud     : the PORT env var is picked up by the container
+                         entrypoint (see Dockerfile CMD).
+The API listens on 0.0.0.0 so it is reachable from outside the container.
+"""
+
+import json
+import time
+
+from fastapi import FastAPI, HTTPException
+
+from mlops_tp.config import (
+    CATEGORICAL_FEATURES,
+    FEATURE_SCHEMA_PATH,
+    MODEL_VERSION,
+    NUMERICAL_FEATURES,
+    TASK_TYPE,
+)
+from mlops_tp.inference import load_model, predict
+from mlops_tp.schemas import HealthResponse, MetadataResponse, PredictRequest, PredictResponse
+
+app = FastAPI(
+    title="Adult Income Prediction API",
+    description="API REST pour prédire si le revenu d'un individu dépasse 50K$/an.",
+    version=MODEL_VERSION,
+)
+
+# Load model and feature schema once at startup (not at import time for testability)
+model = load_model()
+
+with open(FEATURE_SCHEMA_PATH) as f:
+    feature_schema = json.load(f)
+
+
+@app.get("/health", response_model=HealthResponse)
+def health():
+    """Check if the API is alive and ready."""
+    return HealthResponse(status="ok")
+
+
+@app.get("/metadata", response_model=MetadataResponse)
+def metadata():
+    """Return model version, task type, and expected features."""
+    return MetadataResponse(
+        model_version=MODEL_VERSION,
+        task=TASK_TYPE,
+        features=feature_schema,
+    )
+
+
+@app.post("/predict", response_model=PredictResponse)
+def predict_endpoint(request: PredictRequest):
+    """Receive features and return the model prediction."""
+    features = request.features
+    expected_features = NUMERICAL_FEATURES + CATEGORICAL_FEATURES
+
+    missing = [f for f in expected_features if f not in features]
+    if missing:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Missing features: {missing}",
+        )
+
+    for feat in NUMERICAL_FEATURES:
+        val = features[feat]
+        if not isinstance(val, (int, float)):
+            raise HTTPException(
+                status_code=422,
+                detail=f"Feature '{feat}' must be a number, got {type(val).__name__}.",
+            )
+
+    for feat in CATEGORICAL_FEATURES:
+        val = features[feat]
+        if not isinstance(val, str):
+            raise HTTPException(
+                status_code=422,
+                detail=f"Feature '{feat}' must be a string, got {type(val).__name__}.",
+            )
+
+    start = time.perf_counter()
+    result = predict(model, features)
+    latency_ms = round((time.perf_counter() - start) * 1000, 2)
+
+    return PredictResponse(
+        prediction=result["prediction"],
+        task=TASK_TYPE,
+        proba=result["proba"],
+        model_version=MODEL_VERSION,
+        latency_ms=latency_ms,
+    )

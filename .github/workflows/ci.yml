@@ -1,0 +1,53 @@
+name: CI
+
+# Déclencheurs :
+#   - push sur toutes les branches  → détecte rapidement les régressions
+#   - pull_request vers main        → vérifie le code avant la fusion
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Tests & Docker build
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Récupérer le code du dépôt
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Installer Python
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 3. Mettre en cache pip pour accélérer les builds suivants
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # 4. Installer les dépendances
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # 5. Entraîner le modèle (génère les artefacts nécessaires aux tests)
+      - name: Train model
+        run: PYTHONPATH=src python -m mlops_tp.train
+
+      # 6. Exécuter les tests
+      - name: Run tests
+        run: PYTHONPATH=src pytest tests/ -v --tb=short
+
+      # 7. Construire l'image Docker
+      #    Le build retrainant le modèle, il valide que le Dockerfile est
+      #    cohérent avec le code et les données présents dans le dépôt.
+      - name: Build Docker image
+        run: docker build -t adult-income-api:${{ github.sha }} .
