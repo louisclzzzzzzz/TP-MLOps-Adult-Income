@@ -1,0 +1,173 @@
+{
+  "age": {
+    "type": "float",
+    "example": 39.0
+  },
+  "fnlwgt": {
+    "type": "float",
+    "example": 77516.0
+  },
+  "education_num": {
+    "type": "float",
+    "example": 13.0
+  },
+  "capital_gain": {
+    "type": "float",
+    "example": 2174.0
+  },
+  "capital_loss": {
+    "type": "float",
+    "example": 0.0
+  },
+  "hours_per_week": {
+    "type": "float",
+    "example": 40.0
+  },
+  "workclass": {
+    "type": "string",
+    "example": "State-gov",
+    "values": [
+      "Federal-gov",
+      "Local-gov",
+      "Never-worked",
+      "Private",
+      "Self-emp-inc",
+      "Self-emp-not-inc",
+      "State-gov",
+      "Without-pay"
+    ]
+  },
+  "education": {
+    "type": "string",
+    "example": "Bachelors",
+    "values": [
+      "10th",
+      "11th",
+      "12th",
+      "1st-4th",
+      "5th-6th",
+      "7th-8th",
+      "9th",
+      "Assoc-acdm",
+      "Assoc-voc",
+      "Bachelors",
+      "Doctorate",
+      "HS-grad",
+      "Masters",
+      "Preschool",
+      "Prof-school",
+      "Some-college"
+    ]
+  },
+  "marital_status": {
+    "type": "string",
+    "example": "Never-married",
+    "values": [
+      "Divorced",
+      "Married-AF-spouse",
+      "Married-civ-spouse",
+      "Married-spouse-absent",
+      "Never-married",
+      "Separated",
+      "Widowed"
+    ]
+  },
+  "occupation": {
+    "type": "string",
+    "example": "Adm-clerical",
+    "values": [
+      "Adm-clerical",
+      "Armed-Forces",
+      "Craft-repair",
+      "Exec-managerial",
+      "Farming-fishing",
+      "Handlers-cleaners",
+      "Machine-op-inspct",
+      "Other-service",
+      "Priv-house-serv",
+      "Prof-specialty",
+      "Protective-serv",
+      "Sales",
+      "Tech-support",
+      "Transport-moving"
+    ]
+  },
+  "relationship": {
+    "type": "string",
+    "example": "Not-in-family",
+    "values": [
+      "Husband",
+      "Not-in-family",
+      "Other-relative",
+      "Own-child",
+      "Unmarried",
+      "Wife"
+    ]
+  },
+  "race": {
+    "type": "string",
+    "example": "White",
+    "values": [
+      "Amer-Indian-Eskimo",
+      "Asian-Pac-Islander",
+      "Black",
+      "Other",
+      "White"
+    ]
+  },
+  "sex": {
+    "type": "string",
+    "example": "Male",
+    "values": [
+      "Female",
+      "Male"
+    ]
+  },
+  "native_country": {
+    "type": "string",
+    "example": "United-States",
+    "values": [
+      "Cambodia",
+      "Canada",
+      "China",
+      "Columbia",
+      "Cuba",
+      "Dominican-Republic",
+      "Ecuador",
+      "El-Salvador",
+      "England",
+      "France",
+      "Germany",
+      "Greece",
+      "Guatemala",
+      "Haiti",
+      "Holand-Netherlands",
+      "Honduras",
+      "Hong",
+      "Hungary",
+      "India",
+      "Iran",
+      "Ireland",
+      "Italy",
+      "Jamaica",
+      "Japan",
+      "Laos",
+      "Mexico",
+      "Nicaragua",
+      "Outlying-US(Guam-USVI-etc)",
+      "Peru",
+      "Philippines",
+      "Poland",
+      "Portugal",
+      "Puerto-Rico",
+      "Scotland",
+      "South",
+      "Taiwan",
+      "Thailand",
+      "Trinadad&Tobago",
+      "United-States",
+      "Vietnam",
+      "Yugoslavia"
+    ]
+  }
+}

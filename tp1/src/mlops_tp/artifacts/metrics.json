@@ -1,0 +1,18 @@
+{
+  "model_version": "0.1.0",
+  "timestamp": "2026-04-04T20:54:39.860644+00:00",
+  "hyperparameters": {
+    "model_type": "RandomForest",
+    "n_estimators": 100,
+    "max_depth": null,
+    "random_state": 42
+  },
+  "validation": {
+    "accuracy": 0.8526,
+    "f1_score": 0.6676
+  },
+  "test": {
+    "accuracy": 0.8514,
+    "f1_score": 0.6739
+  }
+}

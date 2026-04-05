@@ -1,0 +1,15 @@
+{
+  "dataset": "Adult Census Income (UCI)",
+  "shape": {
+    "rows": 32561,
+    "columns": 15
+  },
+  "target": "income",
+  "split": {
+    "train": 0.7,
+    "validation": 0.15,
+    "test": 0.15
+  },
+  "random_state": 42,
+  "timestamp": "2026-04-04T20:54:39.898212+00:00"
+}
